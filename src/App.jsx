@@ -2,20 +2,22 @@ import './App.css'
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Account from './pages/Account';
-import LogIn from './pages/LogIn';
 import NotFound from './pages/NotFound';
 import SignUp from './pages/SignUp';
 import Article from './pages/Article';
+import NavBar from './componnents/NavBar';
+import SignIn from './pages/Signin';
 
 function App() {
 
   return (
     <div>
+      <NavBar/>
       <Routes>
-        <Route path="/home" element={<Home/>}/>
+        <Route path="/" element={<Home/>}/>
         <Route path="/account" element={<Account/>}/>
         <Route path="/signup" element={<SignUp/>}/>
-        <Route path="/login" element={<LogIn/>}/>
+        <Route path="/signin" element={<SignIn/>}/>
         <Route path="/article" element={<Article/>}/>
         <Route path="/notfound" element={<NotFound/>}/>
       </Routes>
