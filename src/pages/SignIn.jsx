@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import Cookies from 'js-cookie';
 
 
 function SignIn() {
-    const [user, setUser] = useState("")
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [message, setMessage] = useState('');
@@ -15,7 +15,8 @@ function SignIn() {
 
     const handlePasswordChange = (event) => {
         setUserPassword(event.target.value);
-        setIsValid(true); // Reset validation status.    
+        console.log(userPassword)
+        setIsValid(true); // Reset validation status.   
         if (userPassword.length < 8) {
             setIsValid(false);
             setMessage("min of 8 characters");
@@ -31,10 +32,7 @@ function SignIn() {
         } else if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(userPassword)) {
             setIsValid(false);
             setMessage("min of 1 special character");
-        } else if (/^\s|\s$/.test(userPassword)) {
-            setIsValid(false);
-            setMessage("no spaces at start & end");
-        } else {
+        }  else {
             setMessage(""); // Reset the message if the password meets the criteria.
         }
     };
@@ -46,8 +44,9 @@ function SignIn() {
             .then(function (response) {
                 // handle success
                 if (response.data.user) {
-                    setUser(response.data.user)
-                    //window.location.href = '/'
+                    Cookies.set('userId', response.data.user.id);
+                    Cookies.set('username', response.data.user.username);
+                    window.location.href = '/'
                 }
             })
             .catch(function (error) {
@@ -65,7 +64,7 @@ function SignIn() {
                 </div>
                 <div className="form-item">
                     <label htmlFor="password"></label>
-                    <input type="password" value={userPassword} onChange={handlePasswordChange} autoComplete="on" id="password" name="password" required="required" placeholder="Password"></input>
+                    <input onPaste={handlePasswordChange} type="password" value={userPassword} onChange={handlePasswordChange} onInput={handlePasswordChange} autoComplete="on" id="password" name="password" required="required" placeholder="Password"></input>
                 </div>
                 {isValid === false && (
                     <p className="passwordMessage">{message}</p>
