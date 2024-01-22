@@ -12,16 +12,17 @@ import SignIn from './pages/Signin';
 function App() {
   return (
     <div>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/article" element={<Article />} />
-          <Route path="/notfound" element={<NotFound />} />
-        </Routes>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/account" element={<Account />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/notfound" element={<NotFound />} />
+        <Route path="/article/:article_id" element={<Article />} />
+      </Routes>
     </div>
+
   )
 }
 

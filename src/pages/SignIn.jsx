@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import Cookies from 'js-cookie';
+import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 
 
 function SignIn() {
@@ -8,35 +9,49 @@ function SignIn() {
     const [userPassword, setUserPassword] = useState('');
     const [message, setMessage] = useState('');
     const [isValid, setIsValid] = useState(false);
+    const [isVisible, setIsVisible] = useState(false)
+    
+    //0000@657ggtHJ
+    
 
     const handleEmailChange = (event) => {
         setUserEmail(event.target.value);
     };
-
+    const showPassword = () => {
+        const pass = document.getElementById("password");
+        if (pass.type === "password") {
+            pass.type = "text";
+            setIsVisible(true)
+        } else {
+            pass.type = "password";
+            setIsVisible(false)
+        }
+    }
     const handlePasswordChange = (event) => {
-        setUserPassword(event.target.value);
-        console.log(userPassword)
-        setIsValid(true); // Reset validation status.   
-        if (userPassword.length < 8) {
+        const newPassword = event.type === "paste" ? event.clipboardData.getData('text') : event.target.value;
+        setUserPassword(newPassword);        
+        setIsValid(true);
+
+        if (newPassword.length < 8) {
             setIsValid(false);
             setMessage("min of 8 characters");
-        } else if (!/[A-Z]/.test(userPassword)) {
+        } else if (!/[A-Z]/.test(newPassword)) {
             setIsValid(false);
-            setMessage(" min of 1 upper case");
-        } else if (!/[a-z]/.test(userPassword)) {
+            setMessage("min of 1 upper case");
+        } else if (!/[a-z]/.test(newPassword)) {
             setIsValid(false);
             setMessage("min of 1 lower case");
-        } else if (!/\d/.test(userPassword)) {
+        } else if (!/\d/.test(newPassword)) {
             setIsValid(false);
             setMessage("min of 1 number");
-        } else if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(userPassword)) {
+        } else if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(newPassword)) {
             setIsValid(false);
             setMessage("min of 1 special character");
-        }  else {
-            setMessage(""); // Reset the message if the password meets the criteria.
+        } else {
+            setMessage("");
         }
     };
-
+    
     const handleSubmit = (event) => {
         event.preventDefault();
         const urlArticles = `https://back-end-nc-news.onrender.com/api`
@@ -53,7 +68,7 @@ function SignIn() {
                 alert("Invalid Email/Password")
             })
     }
-
+    
     return (
         <div className="form-wrapper">
             <h1>Sign In</h1>
@@ -63,8 +78,14 @@ function SignIn() {
                     <input type="email" value={userEmail} onChange={handleEmailChange} autoComplete="on" id="email" name="email" required="required" placeholder="Email Address"></input>
                 </div>
                 <div className="form-item">
-                    <label htmlFor="password"></label>
-                    <input onPaste={handlePasswordChange} type="password" value={userPassword} onChange={handlePasswordChange} onInput={handlePasswordChange} autoComplete="on" id="password" name="password" required="required" placeholder="Password"></input>
+                    <label htmlFor="password" className='visibility'>
+                    <input type="password" onPaste={handlePasswordChange} onChange={handlePasswordChange} autoComplete="on" id="password" name="password" required="required" placeholder="Password"></input>
+                    {isVisible ? (
+                        <MdVisibilityOff onClick={showPassword} className='passIcon'/>
+                    ) : (
+                        <MdVisibility onClick={showPassword} className='passIcon'/>
+                    )}
+                    </label>
                 </div>
                 {isValid === false && (
                     <p className="passwordMessage">{message}</p>

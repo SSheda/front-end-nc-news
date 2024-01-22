@@ -24,13 +24,12 @@ function NavBar() {
 
     return (
         <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                {username && <li><p>{username}</p></li>}
-                {username===null && <li><a href="/signin">Sign In</a></li>}
-                {username===null  && <li><a href="/signup">Sign Up</a></li>}
-                <li><a href="/account">Account</a></li>
-                {username && <li><button onClick={handleSignOut}>Sign Out</button></li>}
+            <ul className='navBar'>
+                <li><a className='navLink' href="/">Home</a></li>                
+                {username===null && <li><a className='navLink' href="/signin">Sign In</a></li>}
+                {username===null  && <li><a className='navLink' href="/signup">Sign Up</a></li>}
+                {username &&<li><a className='navLink' href="/account">My account</a></li>}
+                {username && <li><a className='navLink' href="/" onClick={handleSignOut}>Sign Out</a></li>}
             </ul>
         </nav>
     );

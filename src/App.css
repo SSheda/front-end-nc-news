@@ -1,6 +1,9 @@
-
 /* Simple Reset */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 /* body */
 body {
@@ -8,6 +11,7 @@ body {
   color: #5e5e5e;
   font: 400 87.5%/1.5em 'Open Sans', sans-serif;
 }
+
 /*----------------LOG IN FORM---------------------------------------------*/
 /* Form Layout */
 .form-wrapper {
@@ -88,10 +92,110 @@ form {
   border-bottom: 1px dotted #8c8c8c;
 }
 
-.passwordMessage{
-  color:#ee3e52;
+.passwordMessage {
+  color: #f16272;
   font-size: 13px;
   padding-top: 0;
   margin-top: -12px;
 }
+
+.visibility {
+  display: flex;
+  align-items: center;
+}
+
+.passIcon {
+  width: 10%;
+}
+
 /*------------------------------------------------------------------------*/
+.navBar {
+  display: flex;
+  padding-left: 5%;
+  padding-right: 5%;
+  justify-content: space-between;
+  background-color: #f16272;
+  list-style-type: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.navLink {
+  color: white;
+  text-decoration: none;
+  font-size: 1.4em;
+}
+
+.navLink:hover {
+  font-size: 1.9em;
+}
+
+/*---------------------------------HOME PAGE--------------------------------------------------------------*/
+
+.articleContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  list-style-type: none;
+}
+
+.articlesList {
+  max-width: 370px;
+  display: flex;
+  flex-direction: column;
+  background: #fafafa;
+  padding: 10px;
+  gap: 10px;
+  color: black;
+}
+
+.articleImg {
+  width: 100%;
+}
+
+.linkRed {
+  color: #f16272;
+}
+
+.linkColour {
+  color: black;
+}
+
+.articleLikes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+/*----------------------------------------------------------------------------------------*/
+.homePage{
+  color: black;
+}
+/*----------------------------------------------------------------------------------------*/
+.search {
+  height: 35px;
+  display: flex;
+  margin-bottom: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  width: 300px;
+}
+
+.searchTerm {
+  width: 90%;
+  border: 1px solid #f16272;
+  color: black;
+  outline: none;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+
+.searchButton {
+  width: 10%;
+  border: 1px solid #f16272;
+  background: #f16272;
+  color: #fff;
+}
+
