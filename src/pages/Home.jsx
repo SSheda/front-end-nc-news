@@ -9,20 +9,21 @@ function Home() {
   const [searchQuery, setSearchQuery] = useState("")
   const [allArticles, setAllArticles] = useState([])
   const [username, setUsername] = useState("");
+  const [uniqueTopics, setUniqueTopics] = useState([]);
   useEffect(() => {
     // Retrieve the username from cookies when the component mounts
     const storedUsername = Cookies.get('username');
     const urlArticles = `https://back-end-nc-news.onrender.com/api/articles`
     axios.get(urlArticles)
       .then((response) => {
+        const topics = [...new Set(response.data.article.map(article => article.topic))];
+        setUniqueTopics(topics);
         if (searchQuery === "") {
           setAllArticles([...response.data.article])
         } else {
           const searchItems = response.data.article.filter((item) => {
-            console.log(Object.values(item).join('').includes(searchQuery.toLowerCase()))
             return Object.values(item).join('').toLowerCase().includes(searchQuery.toLowerCase())
           })
-          console.log(searchItems)
           setAllArticles([...searchItems])
         }
       })
@@ -32,16 +33,16 @@ function Home() {
     }
   }, [searchQuery]);
 
-
   const handleChange = (e) => {
     setInput(e.target.value)
   }
-
+  const handleTopic = (topic) => {
+    setSearchQuery(topic);
+  }
   const handleSearch = () => {
     setSearchQuery(input)
     setInput("")
   };
-
   return (
     <div>
       {username && (<h3 className='wellcomeUser'>Wellcome {username}</h3>)}
@@ -51,6 +52,13 @@ function Home() {
         <button type="submit" onClick={handleSearch} className="searchButton">
           <IoSearch />
         </button>
+      </div>
+      <div >
+        <ul className='query'>
+        {uniqueTopics.map((topic) => (
+            <li key={topic}><button onClick={() => handleTopic(topic)}>{topic}</button></li>
+          ))}
+        </ul>
       </div>
       <AllArticlesList allArticles={allArticles} />
       {allArticles.length === 0 && <p>No results found. Please try again.</p>}

@@ -23,9 +23,9 @@ function AllArticlesList({ allArticles }) {
     const articles = allArticles.map((article) => (
         <li className="articlesList" key={article.article_id}>
             <h3 ><Link className="linkRed" to={`/article/${article.article_id}`}>{article.title}</Link></h3>
-            <h4>Topic: <Link className="linkColour" to={`/article/${article.article_id}`}>{article.topic}</Link></h4>
+            <h4>Topic: {article.topic}</h4>
             <p>{article.body.slice(0, 155)} <Link className="linkRed" to={`/article/${article.article_id}`}><span className="more">...more</span></Link></p>
-            <p><Link className="linkColour" to={`/article/${article.article_id}`}>{article.author}</Link></p>
+            <p>{article.author}</p>
             <div className="articleLikes">
                 <i>
                     <AiFillLike onClick={() => handleClick(article.article_id, 1)} />
