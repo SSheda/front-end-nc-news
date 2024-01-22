@@ -6,7 +6,8 @@ import NotFound from './pages/NotFound';
 import SignUp from './pages/SignUp';
 import Article from './pages/Article';
 import NavBar from './componnents/NavBar';
-import SignIn from './pages/Signin';
+import SignIn from './pages/SignIn';
+
 
 
 function App() {
