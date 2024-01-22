@@ -72,7 +72,7 @@ function SignIn() {
 
     return (
         <div className="form-wrapper">
-            <h1>Sign Un</h1>
+            <h1>Sign Up</h1>
             <form onSubmit={handleSubmit}>
                 <div className="form-item">
                     <label htmlFor="email"></label>
