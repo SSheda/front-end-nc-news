@@ -4,19 +4,33 @@ import Cookies from 'js-cookie';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 
 
-function SignIn() {
+function SignUp() {
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
     const [message, setMessage] = useState('');
+    const [messageMatch, setMessageMatch] = useState('');
+    const [emailMessage, setEmailMessage] = useState('');
     const [isValid, setIsValid] = useState(false);
     const [isVisible, setIsVisible] = useState(false)
+    const [userUsername, setUserUsername] = useState("")
 
     //0000@657ggtHJ
 
 
     const handleEmailChange = (event) => {
-        setUserEmail(event.target.value);
+        const newEmail = event.type === "paste" ? event.clipboardData.getData('text') : event.target.value;
+        setUserEmail(newEmail);
+        setIsValid(true);
+        setEmailMessage("");
+        const regex = /^[\w-+\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+        if (!newEmail.match(regex)) {
+            setIsValid(false);
+            setEmailMessage("Invalid email format.");
+        } else {
+            setEmailMessage("");
+        }
     };
+
     const showPassword = () => {
         const pass = document.getElementById("password");
         if (pass.type === "password") {
@@ -31,42 +45,42 @@ function SignIn() {
         const newPassword = event.type === "paste" ? event.clipboardData.getData('text') : event.target.value;
         setUserPassword(newPassword);
         setIsValid(true);
-
-        if (newPassword.length < 8) {
+        setMessage("");
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+        if (!newPassword.match(regex)) {
             setIsValid(false);
-            setMessage("min of 8 characters");
-        } else if (!/[A-Z]/.test(newPassword)) {
-            setIsValid(false);
-            setMessage("min of 1 upper case");
-        } else if (!/[a-z]/.test(newPassword)) {
-            setIsValid(false);
-            setMessage("min of 1 lower case");
-        } else if (!/\d/.test(newPassword)) {
-            setIsValid(false);
-            setMessage("min of 1 number");
-        } else if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(newPassword)) {
-            setIsValid(false);
-            setMessage("min of 1 special character");
+            setMessage("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.");
         } else {
             setMessage("");
         }
     };
+    const passwordMatch = (event) => {
+        const passMatch = event.type === "paste" ? event.clipboardData.getData('text') : event.target.value;
+        if (passMatch !== userPassword) {
+            setMessageMatch("Password does not match!")
+        }
+        else {
+            setMessageMatch("")
+        }
 
-    
+    }
+    const handleUsername = (event) => {
+        const newUsername = event.type === "paste" ? event.clipboardData.getData('text') : event.target.value;
+        setUserUsername(newUsername)
+     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        const urlArticles = `https://back-end-nc-news.onrender.com/api`
-        axios.post(`${urlArticles}/login`, { email: `${userEmail}`, password: `${userPassword}` })
+        const url = `https://back-end-nc-news.onrender.com/api`
+        axios.post(`${url}/signup`, {username: `${userUsername}`, email: `${userEmail}`, password: `${userPassword}` })
             .then(function (response) {
-                // handle success
-                if (response.data.user) {
-                    Cookies.set('userId', response.data.user.id);
-                    Cookies.set('username', response.data.user.username);
+                if (response.data.newUser) {
+                    Cookies.set('userId', response.data.newUser.user_id);
+                    Cookies.set('username', response.data.newUser.username);
                     window.location.href = '/'
                 }
             })
             .catch(function (error) {
-                alert("Invalid Email/Password")
+                alert('Email/Username already exists!')
             })
     }
 
@@ -78,6 +92,7 @@ function SignIn() {
                     <label htmlFor="email"></label>
                     <input type="email" value={userEmail} onChange={handleEmailChange} autoComplete="on" id="email" name="email" required="required" placeholder="Email Address"></input>
                 </div>
+                <p className="passwordMessage">{emailMessage}</p>
                 <div className="form-item">
                     <label htmlFor="password" className='visibility'>
                         <input type="password" onPaste={handlePasswordChange} onChange={handlePasswordChange} autoComplete="on" id="password" name="password" required="required" placeholder="Password"></input>
@@ -88,14 +103,16 @@ function SignIn() {
                         )}
                     </label>
                 </div>
+                <p className="passwordMessage">{message}</p>
                 <div className="form-item">
                     <label htmlFor="repeatPassword" className='visibility'>
-                        <input type="password"  autoComplete="on" id="repeatPassword" name="repeatPassword" required="required" placeholder="Repeat password"></input>                        
+                        <input type="password" onPaste={passwordMatch} onChange={passwordMatch} autoComplete="on" id="repeatPassword" name="repeatPassword" required="required" placeholder="Repeat Password"></input>
                     </label>
                 </div>
+                <p className="passwordMessage">{messageMatch}</p>
                 <div className="form-item">
                     <label htmlFor="username" className='visibility'>
-                        <input type="text" autoComplete="on" id="username" name="username" required="required" placeholder="Username"></input>                        
+                        <input type="text" onPaste={handleUsername} onChange={handleUsername} autoComplete="on" id="username" name="username" required="required" placeholder="Username"></input>
                     </label>
                 </div>
                 <div className="button-panel">
@@ -103,10 +120,10 @@ function SignIn() {
                 </div>
             </form>
             <div className="form-footer">
-                <p><a href="\signup">Create an account</a></p>
+                <p><a href="\signin">Go to sign in page</a></p>
             </div>
         </div>
     )
 }
 
-export default SignIn
+export default SignUp

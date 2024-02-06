@@ -7,8 +7,6 @@ import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 function SignIn() {
     const [userEmail, setUserEmail] = useState('');
     const [userPassword, setUserPassword] = useState('');
-    const [message, setMessage] = useState('');
-    const [isValid, setIsValid] = useState(false);
     const [isVisible, setIsVisible] = useState(false)
     
     //0000@657ggtHJ
@@ -29,37 +27,16 @@ function SignIn() {
     }
     const handlePasswordChange = (event) => {
         const newPassword = event.type === "paste" ? event.clipboardData.getData('text') : event.target.value;
-        setUserPassword(newPassword);        
-        setIsValid(true);
-
-        if (newPassword.length < 8) {
-            setIsValid(false);
-            setMessage("min of 8 characters");
-        } else if (!/[A-Z]/.test(newPassword)) {
-            setIsValid(false);
-            setMessage("min of 1 upper case");
-        } else if (!/[a-z]/.test(newPassword)) {
-            setIsValid(false);
-            setMessage("min of 1 lower case");
-        } else if (!/\d/.test(newPassword)) {
-            setIsValid(false);
-            setMessage("min of 1 number");
-        } else if (!/[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/.test(newPassword)) {
-            setIsValid(false);
-            setMessage("min of 1 special character");
-        } else {
-            setMessage("");
-        }
+        setUserPassword(newPassword);
     };
     
     const handleSubmit = (event) => {
         event.preventDefault();
-        const urlArticles = `https://back-end-nc-news.onrender.com/api`
-        axios.post(`${urlArticles}/login`, { email: `${userEmail}`, password: `${userPassword}` })
+        const url = `https://back-end-nc-news.onrender.com/api`
+        axios.post(`${url}/login`, { email: `${userEmail}`, password: `${userPassword}` })
             .then(function (response) {
-                // handle success
                 if (response.data.user) {
-                    Cookies.set('userId', response.data.user.id);
+                    Cookies.set('userId', response.data.user_id);
                     Cookies.set('username', response.data.user.username);
                     window.location.href = '/'
                 }
@@ -87,12 +64,8 @@ function SignIn() {
                     )}
                     </label>
                 </div>
-                {isValid === false && (
-                    <p className="passwordMessage">{message}</p>
-                )}
-
                 <div className="button-panel">
-                    <input disabled={!isValid} type="submit" className="button" title="Sign In" value="Sign In"></input>
+                    <input type="submit" className="button" title="Sign In" value="Sign In"></input>
                 </div>
             </form>
             <div className="form-footer">

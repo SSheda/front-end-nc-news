@@ -31,17 +31,21 @@ form {
 
 .form-item {
   margin-bottom: 0.75em;
-  width: 100%;
+  width: 100%; 
+  position: relative;
+  border-bottom: 2px solid #c0c0c0;  
+  transition: border-color 0.3s;
+}
+.passIcon {
+  margin-right: 5px;
+  margin-left: 5px;
 }
 
 .form-item input {
   background: #fafafa;
   border: none;
-  border-bottom: 2px solid #e9e9e9;
-  font-family: 'Open Sans', sans-serif;
   font-size: 1em;
   height: 50px;
-  transition: border-color 0.3s;
   width: 100%;
 }
 
@@ -91,10 +95,10 @@ form {
 }
 
 .passwordMessage {
-  color: #f16272;
+  color: #e72a40;
   font-size: 13px;
   padding-top: 0;
-  margin-top: -12px;
+  margin-top: -10px;
 }
 
 .visibility {
@@ -102,9 +106,7 @@ form {
   align-items: center;
 }
 
-.passIcon {
-  width: 10%;
-}
+
 
 /*------------------------------------------------------------------------*/
 .navBar {
